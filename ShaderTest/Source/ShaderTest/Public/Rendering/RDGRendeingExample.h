@@ -9,6 +9,7 @@
 
 class FRHICommandListImmediate;
 struct IPooledRenderTarget;
+class FRDGPooledBuffer;
 
 USTRUCT(BlueprintType, meta = (ScriptName = "RDGRenderingExample"))
 struct FSimpleShaderParameter
@@ -42,6 +43,9 @@ class URDGRenderingExampleBlueprintLibrary : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, Category = "RDGRenderingExample", meta = (WorldContext = "WorldContextObject"))
 		static void UseRDGDraw(const UObject* WorldContextObject, UTextureRenderTarget2D* OutputRenderTarget, FSimpleShaderParameter Parameter, FLinearColor InColor, UTexture2D* InTexture);
 
+	UFUNCTION(BlueprintCallable, Category = "RDGRenderingExample", meta = (WorldContext = "WorldContextObject"))
+		static void UseRDGSection(const UObject* WorldContextObject, TArray<FVector>& OutputSegAPoint, TArray<FVector>& OutputSegBPoint, UStaticMesh* StaticMesh, FPlane sectionPlane);
+
 	//UFUNCTION(BlueprintCallable, Category = "RDGRenderingExample", meta = (WorldContext = "WorldContextObject"))
 	//	static void UseGlobalShaderCompute(const UObject* WorldContextObject, UTextureRenderTarget2D* OutputRenderTarget, FSimpleShaderParameter Parameter);
 	//
@@ -62,7 +66,7 @@ namespace RDGRenderingExample
 		/*
 		 * 	Common Resource
 		 */
-		struct FTextureVertex
+	struct FTextureVertex
 	{
 		FVector4f Position;
 		FVector2f UV;
@@ -149,6 +153,23 @@ namespace RDGRenderingExample
 
 	//RDG Method
 	void RDGCompute(FRHICommandListImmediate& RHIImmCmdList, FTexture2DRHIRef RenderTargetRHI, FSimpleShaderParameter InParameter);
+	
+	class FMeshPlaneIntersection
+	{
+	public:
+		TArray<TTuple<FVector, FVector>> PerformIntersection(FPositionVertexBuffer*& vertexBuffer, FRawStaticIndexBuffer*& indexBuffer, FPlane sectionPlane);
+
+	private:
+		void _runComputeShader_RenderThread(
+			FRHICommandListImmediate& rhiCmdList, FPositionVertexBuffer* vertexBuffer, FRawStaticIndexBuffer* indexBuffer, FPlane sectionPlane);
+
+		// Copies an FPooledRDGBuffer
+		static void _copyBuffer(FRHICommandListImmediate& rhiCmdList, TRefCountPtr<FRDGPooledBuffer>& source, void* dest, SIZE_T size);
+
+		TArray<FVector> _outSegmentsA;
+		TArray<FVector> _outSegmentsB;
+		TArray<int> _outSegmentsValidation;
+	};
 
 	void RDGDraw(FRHICommandListImmediate& RHIImmCmdList, FTexture2DRHIRef RenderTargetRHI, FSimpleShaderParameter InParameter, const FLinearColor InColor, FTexture2DRHIRef InTexture);
 

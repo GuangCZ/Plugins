@@ -1,0 +1,119 @@
+#include "/Engine/Public/Platform.ush"
+
+#define PRECISION_TOLERANCE 0.000001
+#define SMALL_NUMBER 1.e-10f
+
+float4 SectionPlane;
+Buffer<float3> VertexBuffer;
+Buffer<uint> IndexBuffer;
+RWStructuredBuffer<float3> CutSegmentsA;
+RWStructuredBuffer<float3> CutSegmentsB;
+RWStructuredBuffer<bool> CutSegmentsValidation;
+
+
+bool AlmostEqual(in float3 inP, in float3 evalP)
+{
+    return abs(inP.x - evalP.x) <= PRECISION_TOLERANCE && abs(inP.y - evalP.y) <= PRECISION_TOLERANCE && abs(inP.z - evalP.z) <= PRECISION_TOLERANCE;
+}
+
+void AddUnique(in out float3 list[2], in out int arrayPos, in float3 evalP)
+{
+    if (arrayPos > 1)
+    {
+        for (int c = 0; c < arrayPos; ++c)
+        {
+            if (AlmostEqual(list[c], evalP))
+            {
+                return;
+            }
+        }
+    }
+    list[arrayPos] = evalP;
+    ++arrayPos;
+}
+
+float DistFromPlane(float3 P)
+{
+    return dot(normalize(SectionPlane.xyz), P) - SectionPlane.w;
+}
+
+bool GetSegmentPlaneIntersection(float3 P1, float3 P2, out float3 outP)
+{
+    float d1 = DistFromPlane(P1), d2 = DistFromPlane(P2);
+
+    if (d1 * d2 > 0)
+    {
+        return false; // Points on the same side of plane
+    }
+    if (abs(d1) <= PRECISION_TOLERANCE && abs(d2) <= PRECISION_TOLERANCE)
+    {
+        return false; // Points aligned with plane
+    }
+
+    float t = d1 / (d1 - d2);
+    outP = P1 + t * (P2 - P1);
+    return true;
+}
+
+void TrianglePlaneIntersection(float3 A, float3 B, float3 C, out bool isTriangleIntersected, out float3 outP1, out float3 outP2)
+{
+    float3 IntersectionPoint;
+    float3 OutSegment[2];
+    isTriangleIntersected = false;
+    int i = 0;
+
+    if (GetSegmentPlaneIntersection(A, B, IntersectionPoint))
+    {
+        AddUnique(OutSegment, i, IntersectionPoint);
+    }
+
+    if (GetSegmentPlaneIntersection(B, C, IntersectionPoint))
+    {
+        AddUnique(OutSegment, i, IntersectionPoint);
+    }
+
+    if (GetSegmentPlaneIntersection(C, A, IntersectionPoint))
+    {
+        AddUnique(OutSegment, i, IntersectionPoint);
+    }
+
+    if (i == 2)
+    {
+        outP1 = OutSegment[0];
+        outP2 = OutSegment[1];
+        isTriangleIntersected = true;
+    }
+}
+
+[numthreads(THREADGROUPSIZE_X, THREADGROUPSIZE_Y, THREADGROUPSIZE_Z)]
+void MainCS(uint3 ThreadId : SV_DispatchThreadID)
+{
+    float3 A, B, C;
+    A.x = VertexBuffer[IndexBuffer[ThreadId.x * 3] * 3];
+    A.y = VertexBuffer[IndexBuffer[ThreadId.x * 3] * 3 + 1];
+    A.z = VertexBuffer[IndexBuffer[ThreadId.x * 3] * 3 + 2];
+
+    B.x = VertexBuffer[IndexBuffer[ThreadId.x * 3 + 1] * 3];
+    B.y = VertexBuffer[IndexBuffer[ThreadId.x * 3 + 1] * 3 + 1];
+    B.z = VertexBuffer[IndexBuffer[ThreadId.x * 3 + 1] * 3 + 2];
+
+    C.x = VertexBuffer[IndexBuffer[ThreadId.x * 3 + 2] * 3];
+    C.y = VertexBuffer[IndexBuffer[ThreadId.x * 3 + 2] * 3 + 1];
+    C.z = VertexBuffer[IndexBuffer[ThreadId.x * 3 + 2] * 3 + 2];
+
+    bool isTriangleIntersected;
+    float3 outA;
+    float3 outB;
+
+    TrianglePlaneIntersection(A, B, C, isTriangleIntersected, outA, outB);
+
+    CutSegmentsA[ThreadId.x * 3] = outA.x;
+    CutSegmentsA[ThreadId.x * 3 + 1] = outA.y;
+    CutSegmentsA[ThreadId.x * 3 + 2] = outA.z;
+
+    CutSegmentsB[ThreadId.x * 3] = outB.x;
+    CutSegmentsB[ThreadId.x * 3 + 1] = outB.y;
+    CutSegmentsB[ThreadId.x * 3 + 2] = outB.z;
+
+    CutSegmentsValidation[ThreadId.x] = isTriangleIntersected ? 0 : -1;
+}
