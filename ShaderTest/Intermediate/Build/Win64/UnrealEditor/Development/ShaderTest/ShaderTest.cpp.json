@@ -1,0 +1,14 @@
+{
+    "Version": "1.1",
+    "Data": {
+        "Source": "c:\\users\\cz\\documents\\unreal projects\\rdgtest\\plugins\\shadertest\\source\\shadertest\\private\\shadertest.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\cz\\documents\\unreal projects\\rdgtest\\intermediate\\build\\win64\\rdgtesteditor\\development\\engine\\sharedpch.engine.shadowerrors.h.pch",
+        "Includes": [
+            "c:\\users\\cz\\documents\\unreal projects\\rdgtest\\plugins\\shadertest\\intermediate\\build\\win64\\unrealeditor\\development\\shadertest\\definitions.shadertest.h",
+            "c:\\users\\cz\\documents\\unreal projects\\rdgtest\\plugins\\shadertest\\source\\shadertest\\public\\shadertest.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

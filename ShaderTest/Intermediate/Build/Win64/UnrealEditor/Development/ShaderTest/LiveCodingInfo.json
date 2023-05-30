@@ -1,0 +1,13 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.ShaderTest.cpp.obj": [
+			"RDGComputeShader.cpp.obj",
+			"ShaderTest.cpp.obj"
+		],
+		"Module.ShaderTest.gen.cpp.obj": [
+			"RDGRendeingExample.gen.cpp.obj",
+			"ShaderTest.init.gen.cpp.obj"
+		]
+	}
+}

@@ -1,0 +1,12 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-ShaderTest.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Users\CZ\Documents\Unreal Projects\RDGTest\Intermediate\Build\Win64\RDGTestEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"C:\Users\CZ\Documents\Unreal Projects\RDGTest\Plugins\ShaderTest\Intermediate\Build\Win64\UnrealEditor\Development\ShaderTest\ShaderTest.cpp.obj"
+"C:\Users\CZ\Documents\Unreal Projects\RDGTest\Plugins\ShaderTest\Intermediate\Build\Win64\UnrealEditor\Development\ShaderTest\Default.rc2.res"
+/OUT:"C:\Users\CZ\Documents\Unreal Projects\RDGTest\Plugins\ShaderTest\Intermediate\Build\Win64\UnrealEditor\Development\ShaderTest\UnrealEditor-ShaderTest.lib"

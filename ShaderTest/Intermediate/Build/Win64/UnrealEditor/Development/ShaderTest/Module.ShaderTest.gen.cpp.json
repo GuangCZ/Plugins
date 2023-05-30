@@ -1,0 +1,35 @@
+{
+    "Version": "1.1",
+    "Data": {
+        "Source": "c:\\users\\cz\\documents\\unreal projects\\rdgtest\\plugins\\shadertest\\intermediate\\build\\win64\\unrealeditor\\development\\shadertest\\module.shadertest.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\cz\\documents\\unreal projects\\rdgtest\\intermediate\\build\\win64\\rdgtesteditor\\development\\engine\\sharedpch.engine.shadowerrors.h.pch",
+        "Includes": [
+            "c:\\users\\cz\\documents\\unreal projects\\rdgtest\\plugins\\shadertest\\intermediate\\build\\win64\\unrealeditor\\development\\shadertest\\definitions.shadertest.h",
+            "c:\\users\\cz\\documents\\unreal projects\\rdgtest\\plugins\\shadertest\\intermediate\\build\\win64\\unrealeditor\\inc\\shadertest\\rdgrendeingexample.gen.cpp",
+            "c:\\users\\cz\\documents\\unreal projects\\rdgtest\\plugins\\shadertest\\source\\shadertest\\public\\rendering\\rdgrendeingexample.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraph.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphresources.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphparameter.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphtexturesubresource.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rhi\\public\\rhitransientresourceallocator.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphresources.inl",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphpass.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphevent.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphevent.inl",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphparameters.inl",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphbuilder.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphtrace.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphvalidation.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphblackboard.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\core\\public\\misc\\generatedtypename.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphbuilder.inl",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\rendergraphutils.h",
+            "d:\\ue_5.0\\engine\\source\\runtime\\rendercore\\public\\shaderparameterstruct.h",
+            "c:\\users\\cz\\documents\\unreal projects\\rdgtest\\plugins\\shadertest\\intermediate\\build\\win64\\unrealeditor\\inc\\shadertest\\rdgrendeingexample.generated.h",
+            "c:\\users\\cz\\documents\\unreal projects\\rdgtest\\plugins\\shadertest\\intermediate\\build\\win64\\unrealeditor\\inc\\shadertest\\shadertest.init.gen.cpp"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
